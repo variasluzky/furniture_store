@@ -19,4 +19,8 @@ public class PermissionType {
     @NonNull
     @Column(name = "permission_status", nullable = false)
     private String permissionStatus;
+
+    public String getPermissionTypeName() {
+        return this.permissionStatus;
+    }
 }

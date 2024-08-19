@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // This applies CORS to all paths
                 .allowedOrigins("http://localhost:4200") // The URL of the Angular app
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allowed HTTP methods from the frontend
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD") // Allowed HTTP methods from the frontend
                 .allowedHeaders("*") // Allows all headers
                 .allowCredentials(true) // Optional: if you need to include cookies/session info
                 .maxAge(3600); // Cache the CORS preflight request to avoid repeated checks

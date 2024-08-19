@@ -14,11 +14,10 @@ com\ltp\furniture_store\FurnitureStoreApplication.class
 com\ltp\furniture_store\entity\Promotion.class
 com\ltp\furniture_store\entity\ShoppingCartItem.class
 com\ltp\furniture_store\service\ShoppingCartItemService.class
-com\ltp\furniture_store\controller\RegistrationController.class
+com\ltp\furniture_store\web\HomeController.class
 com\ltp\furniture_store\entity\CreditCardDetail.class
 com\ltp\furniture_store\service\OrderItemService.class
 com\ltp\furniture_store\repository\StatusRepository.class
-com\ltp\furniture_store\repository\RegisteredCustomersRepository.class
 com\ltp\furniture_store\DataInitializer.class
 com\ltp\furniture_store\entity\PermissionType.class
 com\ltp\furniture_store\service\PermissionTypeService.class
@@ -28,3 +27,4 @@ com\ltp\furniture_store\entity\ShoppingCartStatus.class
 com\ltp\furniture_store\entity\Payment.class
 com\ltp\furniture_store\service\EncryptionService.class
 com\ltp\furniture_store\web\PermissionTypeController.class
+com\ltp\furniture_store\web\RegistrationController.class

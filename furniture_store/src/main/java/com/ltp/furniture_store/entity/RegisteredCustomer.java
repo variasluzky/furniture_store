@@ -41,7 +41,7 @@ public class RegisteredCustomer {
 
     @NonNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "permission_type_id", nullable = false)
+    @JoinColumn(name = "permission_type_id")
     private PermissionType permissions;
 
     @NonNull
@@ -50,12 +50,12 @@ public class RegisteredCustomer {
     private String password;
 
     @NonNull
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at",nullable = false)
     @Temporal(TemporalType.DATE)
     private Date createdAt;
 
     @NonNull
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at",nullable = false)
     @Temporal(TemporalType.DATE)
     private Date updatedAt;
 
@@ -72,6 +72,33 @@ public class RegisteredCustomer {
         this.permissions = permissions;
         this.createdAt = new Date();
         this.updatedAt = new Date();
+    }
+
+    // Constructor for fields received from registration form
+    public RegisteredCustomer(String firstName, String lastName, String email, String password, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.createdAt = new Date(); // Assuming you want to set creation and update dates at the time of registration
+        this.updatedAt = new Date();
+    }
+
+    @Override
+    public String toString() {
+        return "RegisteredCustomer{" +
+                "customerId=" + customerId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", permissions=" + (permissions != null ? permissions.getPermissionTypeName() : "null") +
+                ", password='" + password + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", orders=" + (orders != null ? orders.size() + " orders" : "no orders") +
+                '}';
     }
 
 }

@@ -24,6 +24,11 @@ import java.util.Date;
             registeredCustomer.setUpdatedAt(new Date());
             return registeredCustomerRepository.save(registeredCustomer);
         }
+
+    public RegisteredCustomer findUserById(Integer id) {
+        return registeredCustomerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
+}
 
 
