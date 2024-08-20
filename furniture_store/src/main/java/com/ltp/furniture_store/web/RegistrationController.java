@@ -32,8 +32,6 @@ public class RegistrationController {
                 defaultPermission
         );
         customer = registrationService.registerUser(customer);
-        RegisteredCustomer user = registrationService.convertToEntity(registrationDTO);
-        RegisteredCustomer registeredCustomer = registrationService.registerUser(user);
         return ResponseEntity.ok(customer);
     }
 
