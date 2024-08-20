@@ -9,7 +9,9 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/colors")
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class ColorController {
 
      @Autowired
@@ -28,7 +30,7 @@ public class ColorController {
      }
 
      //Create a new color
-    @PostMapping("/colors")
+    @PostMapping
     public Color createColor(@RequestBody Color color) {
          return service.createColor(color);
      }

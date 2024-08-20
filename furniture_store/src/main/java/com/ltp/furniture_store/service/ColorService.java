@@ -1,7 +1,9 @@
 package com.ltp.furniture_store.service;
 
+import jakarta.persistence.*;
 import com.ltp.furniture_store.entity.Color;
 import com.ltp.furniture_store.repository.ColorRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ public class ColorService {
 
     @Autowired
     private ColorRepository repository;
+
 
     // Fetch all colors
     public List<Color> getAllColors() {
