@@ -13,7 +13,6 @@ import lombok.*;
 public class Color {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "color_code")
     private Short colorCode;
 
