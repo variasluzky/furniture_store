@@ -1,9 +1,7 @@
 package com.ltp.furniture_store.service;
 
-import jakarta.persistence.*;
 import com.ltp.furniture_store.entity.Color;
 import com.ltp.furniture_store.repository.ColorRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +39,7 @@ public class ColorService {
         return null;
     }
 
-    // Delete a color  by ID
+    // Delete a Catalog item  by ID
     public void deleteColor(Short id) {
         repository.deleteById(id);
     }

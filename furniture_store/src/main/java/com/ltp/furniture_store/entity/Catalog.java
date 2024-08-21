@@ -22,6 +22,11 @@ public class Catalog {
     private Long productID;
 
     @NonNull
+    @Enumerated(EnumType.STRING)
+    @Column(name="type_of_item",nullable = false)
+    private ItemType typeOfItem;
+
+    @NonNull
     @Column(name = "product_name", nullable = false,length = 100)
     private String productName;
 

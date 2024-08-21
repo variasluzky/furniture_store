@@ -1,6 +1,5 @@
 package com.ltp.furniture_store.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,8 +19,11 @@ public class Promotion {
     private Short promotionCode;
 
     @NonNull
-    @Column(name = "discount")
-    private BigDecimal discount;
+    @Column(name = "discount", nullable = false)
+    private BigDecimal discount;  // This will store the percentage discount
 
+    @NonNull
+    @Column(name = "description", nullable = false, length = 255)
+    private String description;  // This will store the description of the promotion
 
 }
