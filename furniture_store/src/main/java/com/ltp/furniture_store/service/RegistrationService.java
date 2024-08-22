@@ -25,21 +25,6 @@ import java.util.Date;
             registeredCustomer.setUpdatedAt(new Date());
             return registeredCustomerRepository.save(registeredCustomer);
         }
-    public RegisteredCustomer convertToEntity(RegistrationDTO registrationDTO) {
-        RegisteredCustomer registeredCustomer = new RegisteredCustomer();
-        registeredCustomer.setFirstName(registrationDTO.getFirstName());
-        registeredCustomer.setLastName(registrationDTO.getLastName());
-        registeredCustomer.setEmail(registrationDTO.getEmail());
-        registeredCustomer.setPhone(registrationDTO.getPhone());
-        registeredCustomer.setPassword(registrationDTO.getPassword());
-        return registeredCustomer;
-    }
-
-    public RegisteredCustomer registerUser(RegistrationDTO registrationDTO) {
-        RegisteredCustomer registeredCustomer = convertToEntity(registrationDTO);
-        return registeredCustomerRepository.save(registeredCustomer);
-    }
-
 
 
     public RegisteredCustomer findUserById(Integer id) {

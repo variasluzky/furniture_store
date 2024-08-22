@@ -32,14 +32,12 @@ public class RegistrationController {
                 defaultPermission
         );
         customer = registrationService.registerUser(customer);
-        RegisteredCustomer user = registrationService.convertToEntity(registrationDTO);
-        RegisteredCustomer registeredCustomer = registrationService.registerUser(user);
         return ResponseEntity.ok(customer);
     }
 
 
     // GET endpoint for fetching a user by ID
-    @GetMapping("/users/{email}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Integer id) {
         try {
             RegisteredCustomer customer = registrationService.findUserById(id);

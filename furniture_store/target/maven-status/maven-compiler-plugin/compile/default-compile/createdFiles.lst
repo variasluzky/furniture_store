@@ -6,6 +6,7 @@ com\ltp\furniture_store\entity\RegisteredCustomer.class
 com\ltp\furniture_store\repository\PermissionTypeRepository.class
 com\ltp\furniture_store\entity\Order.class
 com\ltp\furniture_store\entity\OrderItem.class
+com\ltp\furniture_store\config\WebConfig.class
 com\ltp\furniture_store\entity\OrderItemId.class
 com\ltp\furniture_store\entity\Status.class
 com\ltp\furniture_store\entity\Color.class
@@ -13,6 +14,7 @@ com\ltp\furniture_store\entity\Catalog.class
 com\ltp\furniture_store\FurnitureStoreApplication.class
 com\ltp\furniture_store\entity\Promotion.class
 com\ltp\furniture_store\entity\ShoppingCartItem.class
+com\ltp\furniture_store\entity\RegistrationDTO.class
 com\ltp\furniture_store\service\ShoppingCartItemService.class
 com\ltp\furniture_store\web\HomeController.class
 com\ltp\furniture_store\entity\CreditCardDetail.class
