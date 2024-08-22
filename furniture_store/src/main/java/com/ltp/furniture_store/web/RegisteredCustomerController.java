@@ -3,7 +3,7 @@ import com.ltp.furniture_store.entity.PermissionType;
 import com.ltp.furniture_store.entity.RegisteredCustomer;
 import com.ltp.furniture_store.entity.RegistrationDTO;
 import com.ltp.furniture_store.repository.PermissionTypeRepository;
-import com.ltp.furniture_store.service.RegistrationService;
+import com.ltp.furniture_store.service.RegisteredCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-public class RegistrationController {
+public class RegisteredCustomerController {
 
     @Autowired
-    private RegistrationService registrationService;
+    private RegisteredCustomerService registrationService;
 
     @Autowired
     private PermissionTypeRepository permissionTypeRepository;

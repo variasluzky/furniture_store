@@ -1,7 +1,6 @@
 package com.ltp.furniture_store.service;
 import com.ltp.furniture_store.entity.PermissionType;
 import com.ltp.furniture_store.entity.RegisteredCustomer;
-import com.ltp.furniture_store.entity.RegistrationDTO;
 import com.ltp.furniture_store.repository.PermissionTypeRepository;
 import com.ltp.furniture_store.repository.RegisteredCustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-    public class RegistrationService {
+    public class RegisteredCustomerService {
 
         @Autowired
         private RegisteredCustomerRepository registeredCustomerRepository;
