@@ -57,7 +57,7 @@ public class Catalog {
     @NonNull
     @Column(name = "stock",nullable = false)
     @Min(value = 0,message = "Stock can't be negative number")
-    private Integer stock;g
+    private Integer stock;
 
     @NonNull
     @Column(name = "status",nullable = false)
