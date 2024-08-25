@@ -32,7 +32,7 @@ public class PermissionTypeService {
     public PermissionType updatePermissionType(Short id, PermissionType updatedPermissionType) {
         PermissionType existingPermissionType = repository.findById(id).orElse(null);
         if (existingPermissionType != null) {
-            existingPermissionType.setPermissionStatus(updatedPermissionType.getPermissionStatus());
+           existingPermissionType.setPermissionStatus(updatedPermissionType.getPermissionStatus());
             return repository.save(existingPermissionType);
         }
         return null;

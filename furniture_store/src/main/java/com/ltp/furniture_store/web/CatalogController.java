@@ -19,16 +19,26 @@ public class CatalogController {
     @Autowired
     private CatalogService service;
 
+
+    @GetMapping("/items/{id}")
+    public Catalog getItem(@PathVariable Long id) {
+        System.out.println("Received ID: " + id);
+        return service.getCatalogById(id);
+    }
+
     // Fetch all items
     @GetMapping
     public List<Catalog> getAllCatalog() {
         return service.getAllCatalog();
     }
 
+
+
     // Fetch a single item by ID
     @GetMapping("/{id}")
     public Catalog getCatalogById(@PathVariable long id) {
         return service.getCatalogById(id);
+
     }
 
     //Create a new color
@@ -51,4 +61,13 @@ public class CatalogController {
     public ItemType[] getItemTypes() {
         return ItemType.values();
     }
+
+
+
 }
+
+
+
+
+
+

@@ -31,6 +31,7 @@ public class CatalogService {
         return repository.findAll();
     }
 
+
     // Fetch a single item by ID
     public Catalog getCatalogById(Long id) {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Catalog item not found"));

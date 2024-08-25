@@ -37,7 +37,7 @@ public class RegisteredCustomerController {
 
 
     // GET endpoint for fetching a user by ID
-    @GetMapping("/users/{email}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Integer id) {
         try {
             RegisteredCustomer customer = registrationService.findUserById(id);
