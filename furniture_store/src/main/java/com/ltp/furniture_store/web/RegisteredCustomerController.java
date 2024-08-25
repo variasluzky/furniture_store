@@ -1,6 +1,6 @@
 package com.ltp.furniture_store.web;
-import com.ltp.furniture_store.IncorrectPasswordException;
-import com.ltp.furniture_store.UserNotFoundException;
+import com.ltp.furniture_store.exception.IncorrectPasswordException;
+import com.ltp.furniture_store.exception.UserNotFoundException;
 import com.ltp.furniture_store.entity.PermissionType;
 import com.ltp.furniture_store.entity.RegisteredCustomer;
 import com.ltp.furniture_store.entity.RegistrationDTO;
@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -51,7 +53,9 @@ public class RegisteredCustomerController {
     }
 
     @PostMapping("/logIn")
-    public ResponseEntity<?> logInUser(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<?> logInUser(@RequestBody Map<String, String> credentials) {
+        String email = credentials.get("email");
+        String password = credentials.get("password");
         try {
             RegisteredCustomer customer = registrationService.findUserByEmail(email)
                     .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
@@ -59,19 +63,24 @@ public class RegisteredCustomerController {
             if (!customer.getPassword().equals(password)) {
                 throw new IncorrectPasswordException("Password is incorrect for email: " + email);
             }
+
+            // This assumes customer.getPermissions() is not null
             UserDTO userDTO = new UserDTO(
                     customer.getCustomerId(),
                     customer.getFirstName(),
                     customer.getLastName(),
                     customer.getEmail(),
                     customer.getPhone(),
-                    customer.getPermissions().getPermissionStatus()
+                    customer.getPermissions().getPermissionStatus() // Ensure this is not null
             );
+
+            System.out.println("UserDTO created: " + userDTO); // Add this line for debugging
 
             return ResponseEntity.ok(userDTO);
         } catch (UserNotFoundException | IncorrectPasswordException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
 
 }
