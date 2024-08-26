@@ -46,5 +46,11 @@ public class RegisteredCustomerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found: " + e.getMessage());
         }
     }
+
+    @RestController
+    @RequestMapping("/api/cart")
+
+    public class shopingCartController {
+    }
 }
 
