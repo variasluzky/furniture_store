@@ -6,8 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ShoppingCartService {
@@ -95,4 +99,32 @@ public class ShoppingCartService {
         cart.setUpdatedAt(new Date());
         shoppingCartRepository.save(cart);
     }
+
+    public List<ShoppingCartItemDTO> getCartItemsByCustomerId(Integer customerId) {
+        // Fetch the RegisteredCustomer using the customerId
+        RegisteredCustomer customer = registeredCustomerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + customerId));
+
+        // Now, use the RegisteredCustomer object to find the active shopping cart
+        Optional<ShoppingCart> cart = shoppingCartRepository.findByCustomerAndShoppingCartStatus_StatusDescription(
+                customer, ShoppingCartStatusEnum.ACTIVE);
+
+        if (cart.isPresent()) {
+            List<ShoppingCartItem> items = shoppingCartItemRepository.findByShoppingCart(cart.get());
+            return items.stream().map(this::convertToDTO).collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
+
+    private ShoppingCartItemDTO convertToDTO(ShoppingCartItem item) {
+        ShoppingCartItemDTO dto = new ShoppingCartItemDTO();
+        dto.setProductName(item.getCatalog().getProductName());
+        dto.setQuantity(item.getQuantityCart());
+        dto.setPrice(item.getCatalog().getPrice());
+        dto.setTotalPrice(item.getCatalog().getPrice().multiply(new BigDecimal(item.getQuantityCart())));
+        // Add other fields as needed
+        return dto;
+    }
+
+
 }

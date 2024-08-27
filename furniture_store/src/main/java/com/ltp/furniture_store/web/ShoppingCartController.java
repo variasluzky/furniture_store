@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/cart")
 public class ShoppingCartController {
@@ -20,7 +22,7 @@ public class ShoppingCartController {
     private CatalogService catalogService;
 
     // Add item to cart
-    @PostMapping("/add")
+    @PostMapping("/{customerId}/add")
     public ResponseEntity<?> addItemToCart(@PathVariable Integer customerId, @RequestParam Long productId, @RequestParam int quantity) {
         RegisteredCustomer customer = registeredCustomerService.findUserById(customerId);
         Catalog catalog = catalogService.findCatalogById(productId);
@@ -30,7 +32,7 @@ public class ShoppingCartController {
     }
 
     // Remove item from cart
-    @DeleteMapping("/{customerId}/remove")
+    @DeleteMapping("/{customerId}/delete")
     public ResponseEntity<?> removeItemFromCart(@PathVariable Integer customerId, @RequestParam Long productId) {
         RegisteredCustomer customer = registeredCustomerService.findUserById(customerId);
         Catalog catalog = catalogService.findCatalogById(productId);
@@ -46,5 +48,15 @@ public class ShoppingCartController {
         ShoppingCart cart = shoppingCartService.createOrUpdateCart(customer);
         shoppingCartService.completeCart(cart);
         return ResponseEntity.ok("Cart completed successfully");
+    }
+
+    // Get all items in the cart for a specific customer
+    @GetMapping("/{customerId}/items")
+    public ResponseEntity<List<ShoppingCartItemDTO>> getCartItems(@PathVariable Integer customerId) {
+        List<ShoppingCartItemDTO> cartItems = shoppingCartService.getCartItemsByCustomerId(customerId);
+        if (cartItems.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(cartItems);
     }
 }
