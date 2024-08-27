@@ -18,7 +18,7 @@ public class ShoppingCartStatus {
     private Short statusCart;
 
     @NonNull
+    @Enumerated(EnumType.STRING) // This annotation maps the enum to a string in the database
     @Column(name = "status_description", nullable = false)
-    private String statusDescription;
-
+    private ShoppingCartStatusEnum statusDescription;
 }

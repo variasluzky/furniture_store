@@ -35,6 +35,8 @@ import java.util.Optional;
     public Optional<RegisteredCustomer> findUserByEmail(String email) {
         return registeredCustomerRepository.findByEmail(email);
     }
+
+
 }
 
 

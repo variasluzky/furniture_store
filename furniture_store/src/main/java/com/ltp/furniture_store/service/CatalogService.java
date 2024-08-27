@@ -114,4 +114,9 @@ public class CatalogService {
         }
         repository.deleteById(id);
     }
+
+    public Catalog findCatalogById(Long productId) {
+        return repository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + productId));
+    }
 }
