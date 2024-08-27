@@ -23,11 +23,11 @@ public class ShoppingCartController {
 
     // Add item to cart
     @PostMapping("/{customerId}/add")
-    public ResponseEntity<?> addItemToCart(@PathVariable Integer customerId, @RequestParam Long productId, @RequestParam int quantity) {
+    public ResponseEntity<?> addItemToCart(@PathVariable Integer customerId,@RequestBody CartItemDTO cartItemDTO) {
         RegisteredCustomer customer = registeredCustomerService.findUserById(customerId);
-        Catalog catalog = catalogService.findCatalogById(productId);
+        Catalog catalog = catalogService.findCatalogById(cartItemDTO.productId);
         ShoppingCart cart = shoppingCartService.createOrUpdateCart(customer);
-        ShoppingCartItem item = shoppingCartService.addItemToCart(cart, catalog, quantity);
+        ShoppingCartItem item = shoppingCartService.addItemToCart(cart, catalog, cartItemDTO.quantity);
         return ResponseEntity.ok(item);
     }
 

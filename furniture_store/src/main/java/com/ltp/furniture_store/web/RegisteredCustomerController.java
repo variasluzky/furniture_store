@@ -12,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -81,6 +83,20 @@ public class RegisteredCustomerController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+    @GetMapping("/clients")
+    public ResponseEntity<List<UserDTO>> getAllCustomers() {
+        List<RegisteredCustomer> customers = registrationService.getAllCustomers();
+        List<UserDTO> customerDTOs = customers.stream().map(customer -> new UserDTO(
+                customer.getCustomerId(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getEmail(),
+                customer.getPhone(),
+                customer.getPermissions().getPermissionStatus()
+        )).collect(Collectors.toList());
 
-
+        return ResponseEntity.ok(customerDTOs);
+    }
 }
+
+
