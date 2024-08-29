@@ -17,6 +17,7 @@ public class Status {
     private Short statusId;
 
     @NonNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "description_status", nullable = false)
-    private String descriptionStatus;
+    private OrderStatusEnum descriptionStatus;
 }
