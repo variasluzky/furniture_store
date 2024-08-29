@@ -59,4 +59,17 @@ public class ShoppingCartController {
         }
         return ResponseEntity.ok(cartItems);
     }
+
+
+    @GetMapping("/{customerId}/order/{orderId}/items")
+    public ResponseEntity<List<ShoppingCartItemDTO>> getCartItemsByOrder(
+            @PathVariable Integer customerId,
+            @PathVariable Integer orderId) {
+        List<ShoppingCartItemDTO> cartItems = shoppingCartService.getCartItemsByCustomerIdAndOrderId(customerId, orderId);
+        if (cartItems.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(cartItems);
+    }
+
 }

@@ -127,4 +127,8 @@ public class ShoppingCartService {
     }
 
 
+    public List<ShoppingCartItemDTO> getCartItemsByCustomerIdAndOrderId(Integer customerId, Integer orderId) {
+        return ShoppingCartRepository.findByCustomer_IdAndOrderId(customerId, orderId);
+    }
+
 }
