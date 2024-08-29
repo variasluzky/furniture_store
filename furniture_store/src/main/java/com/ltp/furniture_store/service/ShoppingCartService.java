@@ -50,46 +50,6 @@ public class ShoppingCartService {
         return cart;
     }
 
-    // Add an item to the shopping cart
-    @Transactional
-    public ShoppingCartItem addItemToCart(ShoppingCart cart, Catalog catalog, int quantity) {
-        if (catalog.getStock() < quantity) {
-            throw new IllegalArgumentException("Insufficient stock for product: " + catalog.getProductName());
-        }
-
-        catalog.setStock(catalog.getStock() - quantity);
-        catalogRepository.save(catalog);
-
-        ShoppingCartItemId itemId = new ShoppingCartItemId(cart.getCartId(), Math.toIntExact(catalog.getProductID()));
-        ShoppingCartItem item = new ShoppingCartItem(itemId, cart, catalog, quantity);
-        shoppingCartItemRepository.save(item);
-
-        cart.setUpdatedAt(new Date());
-        shoppingCartRepository.save(cart);
-
-        return item;
-    }
-
-    // Remove an item from the shopping cart
-    @Transactional
-    public void removeItemFromCart(ShoppingCart cart, Catalog catalog) {
-        ShoppingCartItemId itemId = new ShoppingCartItemId(cart.getCartId(), Math.toIntExact(catalog.getProductID()));
-        ShoppingCartItem item = shoppingCartItemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("Item not found in cart"));
-
-        catalog.setStock(catalog.getStock() + item.getQuantityCart());
-        catalogRepository.save(catalog);
-
-        shoppingCartItemRepository.delete(item);
-
-        if (shoppingCartItemRepository.findByShoppingCart(cart).isEmpty()) {
-            ShoppingCartStatus cancelledStatus = shoppingCartStatusRepository.findByStatusDescription(ShoppingCartStatusEnum.CANCELLED);
-            cart.setShoppingCartStatus(cancelledStatus);
-        }
-
-        cart.setUpdatedAt(new Date());
-        shoppingCartRepository.save(cart);
-    }
 
     // Complete the cart
     @Transactional
@@ -118,17 +78,100 @@ public class ShoppingCartService {
 
     private ShoppingCartItemDTO convertToDTO(ShoppingCartItem item) {
         ShoppingCartItemDTO dto = new ShoppingCartItemDTO();
+        dto.setProductId(item.getCatalog().getProductID());
         dto.setProductName(item.getCatalog().getProductName());
         dto.setQuantity(item.getQuantityCart());
         dto.setPrice(item.getCatalog().getPrice());
+        dto.setPromotion(item.getCatalog().getPromotion().getDiscount()); // Ensure this is correct
         dto.setTotalPrice(item.getCatalog().getPrice().multiply(new BigDecimal(item.getQuantityCart())));
-        // Add other fields as needed
         return dto;
     }
 
 
+<<<<<<< HEAD
     public List<ShoppingCartItemDTO> getCartItemsByCustomerIdAndOrderId(Integer customerId, Integer orderId) {
         return ShoppingCartRepository.findByCustomer_IdAndOrderId(customerId, orderId);
     }
 
+=======
+
+
+    @Transactional
+    public ShoppingCartItem addItemToCart(ShoppingCart cart, Catalog catalog, int quantity) {
+        Optional<ShoppingCartItem> existingItem = shoppingCartItemRepository.findById(
+                new ShoppingCartItemId(cart.getCartId(), Math.toIntExact(catalog.getProductID())));
+
+        int totalQuantity = quantity;
+        if (existingItem.isPresent()) {
+            totalQuantity += existingItem.get().getQuantityCart();
+        }
+
+        if (catalog.getStock() < totalQuantity) {
+            throw new IllegalArgumentException("Insufficient stock for product: " + catalog.getProductName());
+        }
+
+        catalog.setStock(catalog.getStock() - quantity);
+        catalogRepository.save(catalog);
+
+        ShoppingCartItem item;
+        if (existingItem.isPresent()) {
+            item = existingItem.get();
+            item.setQuantityCart(totalQuantity);
+        } else {
+            ShoppingCartItemId itemId = new ShoppingCartItemId(cart.getCartId(), Math.toIntExact(catalog.getProductID()));
+            item = new ShoppingCartItem(itemId, cart, catalog, totalQuantity);
+        }
+
+        shoppingCartItemRepository.save(item);
+        cart.setUpdatedAt(new Date());
+        shoppingCartRepository.save(cart);
+
+        return item;
+    }
+
+    @Transactional
+    public void updateCartItemQuantity(ShoppingCart cart, Catalog catalog, int quantity) {
+        ShoppingCartItemId itemId = new ShoppingCartItemId(cart.getCartId(), Math.toIntExact(catalog.getProductID()));
+        Optional<ShoppingCartItem> existingItem = shoppingCartItemRepository.findById(itemId);
+
+        if (quantity > 0) {
+            // Add or update item in the cart
+            if (existingItem.isPresent()) {
+                ShoppingCartItem item = existingItem.get();
+                int difference = quantity - item.getQuantityCart();
+                if (catalog.getStock() < difference) {
+                    throw new IllegalArgumentException("Insufficient stock for product: " + catalog.getProductName());
+                }
+                item.setQuantityCart(quantity);
+                catalog.setStock(catalog.getStock() - difference);
+                shoppingCartItemRepository.save(item);
+            } else {
+                // Add new item if not already in the cart
+                if (catalog.getStock() < quantity) {
+                    throw new IllegalArgumentException("Insufficient stock for product: " + catalog.getProductName());
+                }
+                ShoppingCartItem newItem = new ShoppingCartItem(itemId, cart, catalog, quantity);
+                catalog.setStock(catalog.getStock() - quantity);
+                shoppingCartItemRepository.save(newItem);
+            }
+        } else {
+            // Remove item if quantity is zero
+            if (existingItem.isPresent()) {
+                ShoppingCartItem item = existingItem.get();
+                catalog.setStock(catalog.getStock() + item.getQuantityCart());
+                shoppingCartItemRepository.delete(item);
+            }
+        }
+
+        // Update the cart
+        if (shoppingCartItemRepository.findByShoppingCart(cart).isEmpty()) {
+            ShoppingCartStatus cancelledStatus = shoppingCartStatusRepository.findByStatusDescription(ShoppingCartStatusEnum.CANCELLED);
+            cart.setShoppingCartStatus(cancelledStatus);
+        }
+
+        shoppingCartRepository.save(cart);
+        catalogRepository.save(catalog);
+    }
+>>>>>>> refs/remotes/origin/main
 }
+

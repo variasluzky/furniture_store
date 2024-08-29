@@ -22,4 +22,5 @@ public class CatalogUpdateDTO {
     private ItemType typeOfItem;
     private Short colorCode;
     private Short promotionCode;
+
 }

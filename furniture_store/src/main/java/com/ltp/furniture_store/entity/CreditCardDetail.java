@@ -46,7 +46,6 @@ public class CreditCardDetail {
     @Column(name = "cvv", nullable = false)
     private String encryptedCvv;
 
-    // Default constructor, getters, and setters...
 
     // Custom constructor with encryption
     public CreditCardDetail(RegisteredCustomer registeredCustomer, String cardholderId, String creditCardNumber,

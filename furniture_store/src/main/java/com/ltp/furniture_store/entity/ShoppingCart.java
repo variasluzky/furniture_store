@@ -1,9 +1,7 @@
 package com.ltp.furniture_store.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.Date;
 
 @Getter
@@ -38,4 +36,6 @@ public class ShoppingCart {
     @Column(name = "updated_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
+
 }
